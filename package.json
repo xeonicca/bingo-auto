@@ -7,13 +7,14 @@
     "serve": "vite preview"
   },
   "dependencies": {
-    "airtable": "^0.11.1",
     "axios": "^0.24.0",
     "qs": "^6.10.3",
     "vue": "^3.2.26",
     "vue-router": "^4.0.12"
   },
   "devDependencies": {
+    "unplugin-auto-import": "^0.5.5",
+    "unplugin-vue-components": "^0.17.11",
     "@headlessui/vue": "^1.4.2",
     "@heroicons/vue": "^1.0.5",
     "@tailwindcss/aspect-ratio": "^0.4.0",

@@ -1,94 +1,179 @@
 <script setup>
-import { airtable } from "@/api/airtable";
+// import listToMatrix from '@/helper/listToMatrix'
+import bingoChecker from '@/helper/bingoChecker'
 
-let result = await airtable.get("pool?maxRecords=500&view=Grid%20view");
-const { records } = result.data;
+import { ArrowRightIcon } from '@heroicons/vue/solid'
+import { airtable } from '@/api/airtable'
+
+
+const pools = ref([])
+const records = ref([])
+
+const updateRecords = async () => {
+  const { data } = await airtable.get('pool?maxRecords=500&view=Grid%20view')
+  records.value = data.records.map((v) => {
+    let numbers = v.fields.numbers?.split(',')
+    return {
+      hash: v.id,
+      id: v.fields.id,
+      numbers,
+      // matrix: listToMatrix(numbers),
+      specials: v.fields.specials?.split(','),
+      status: v.fields.status,
+      matches: bingoChecker(numbers, hits.value)
+    }
+  })
+
+  pools.value = records.value
+}
+
+
+// 已開獎的號碼
+const hits = ref([])
+
+// 手動更新
+const updateBingo = async () => {
+  const { data: bingos } = await airtable.get(
+    `bingo?maxRecords=300&view=Grid%20view`
+  )
+
+  hits.value = bingos.records.map((v) => v.fields.bingo)
+
+  await updateRecords()
+}
+
+await updateBingo()
+await updateRecords()
+
+
+const checkAllPool = (matches) => {
+  pools.value = records.value.filter(v => {
+    return v.matches >= matches
+  })
+}
 </script>
 
 <template>
-  <div class="bg-gray-50">
+  <div class="bg-gray-200 h-screen pt-20">
     <div
-      class="
-        max-w-screen-xl
-        px-4
-        py-12
-        mx-auto
-        sm:px-6
-        lg:py-16 lg:px-8 lg:flex lg:items-center lg:justify-between
-      "
+      class="max-w-screen-xl px-2 py-12 mx-auto sm:px-6 lg:py-16 lg:px-8 lg:flex lg:items-center lg:justify-between"
     >
-      <!-- component -->
-      <section class="antialiased bg-gray-100 text-gray-600 h-screen px-4">
-        <div class="flex flex-col justify-center h-full">
-          <!-- Table -->
-          <div
-            class="
-              w-full
-              max-w-2xl
-              mx-auto
-              bg-white
-              shadow-lg
-              rounded-sm
-              border border-gray-200
-            "
-          >
-            <header class="px-5 py-4 border-b border-gray-100">
-              <h2 class="font-semibold text-gray-800">Customers</h2>
-            </header>
-            <div class="p-3">
-              <div class="overflow-x-auto">
-                <table class="table-auto w-full">
-                  <thead
-                    class="
-                      text-xs
-                      font-semibold
-                      uppercase
-                      text-gray-400
-                      bg-gray-50
-                    "
-                  >
-                    <tr>
-                      <th class="p-2 whitespace-nowrap">
-                        <div class="font-semibold text-left">id</div>
-                      </th>
-                      <th class="p-2 whitespace-nowrap">
+      <h3 class="text-lg px-4 flex items-center">
+        <span>目前號碼</span>
+        <button
+          @click="updateBingo"
+          type="button"
+          class="ml-2 text-xs border border-indigo-500 bg-indigo-500 text-white rounded-md px-2 py-1 transition duration-500 ease select-none hover:bg-indigo-600 focus:outline-none focus:shadow-outline"
+        >
+          更新號碼
+        </button>
+      </h3>
+      <p class="px-4 mt-1">
+        <strong v-for="num in hits" class="px-1">{{ num }}</strong>
+      </p>
+
+      <div class="flex flex-col justify-center">
+        <div class="px-2 py-4 my-3 mx-auto rounded-md flex items-center">
+          <div class="w-full text-center mx-auto">
+            <button
+              @click="checkAllPool(0)"
+              type="button"
+              class="border border-gray-700 bg-gray-700 text-white rounded-md px-4 py-2 m-2 transition duration-500 ease select-none focus:outline-none focus:shadow-outline"
+            >
+              全部
+            </button>
+
+            <button
+              @click="checkAllPool(1)"
+              type="button"
+              class="border border-teal-500 bg-teal-500 text-white rounded-md px-4 py-2 m-2 transition duration-500 ease select-none focus:outline-none focus:shadow-outline"
+            >
+              中1條
+            </button>
+            
+            <button
+              @click="checkAllPool(2)"
+              type="button"
+              class="border border-green-500 bg-green-500 text-white rounded-md px-4 py-2 m-2 transition duration-500 ease select-none focus:outline-none focus:shadow-outline"
+            >
+              中2條
+            </button>
+
+            <button
+              @click="checkAllPool(3)"
+              type="button"
+              class="border border-indigo-500 bg-indigo-500 text-white rounded-md px-4 py-2 m-2 transition duration-500 ease select-none focus:outline-none focus:shadow-outline"
+            >
+              中3條
+            </button>
+          </div>
+        </div>
+        <!-- Table -->
+        <div
+          class="w-full max-w-2xl mx-auto bg-white shadow-lg rounded-sm border border-gray-200"
+        >
+          <header class="px-5 py-4 border-b border-gray-100 flex justify-between">
+            <h2 class="font-semibold text-gray-800">Bingo Pool</h2>
+            <div>
+              <strong>{{ pools.length }}張</strong>
+            </div>
+          </header>
+          <div class="p-1">
+            <div class="overflow-x-auto">
+              <table class="table-auto w-full">
+                <thead
+                  class="text-xs font-semibold uppercase text-gray-400 bg-gray-50"
+                >
+                  <tr>
+                    <th class="p-2 whitespace-nowrap">
+                      <div class="font-semibold text-left">卡片編號</div>
+                    </th>
+                    <!-- <th class="p-2 whitespace-nowrap">
                         <div class="font-semibold text-left">Pool</div>
-                      </th>
-                      <th class="p-2 whitespace-nowrap">
+                      </th> -->
+                    <!-- <th class="p-2 whitespace-nowrap">
                         <div class="font-semibold text-left">Rows</div>
-                      </th>
-                      <th class="p-2 whitespace-nowrap">
-                        <div class="font-semibold text-left">Status</div>
-                      </th>
-                    </tr>
-                  </thead>
-                  <tbody class="text-sm divide-y divide-gray-100">
-                    <tr v-for="row in records" :key="row.id">
-                      <td class="p-2 whitespace-nowrap">
-                        <div class="text-left">{{ row.id }}</div>
-                      </td>
-                      <td class="p-2 whitespace-nowrap">
-                        <div class="text-left font-medium text-green-200">
+                      </th> -->
+                    <th class="p-2 whitespace-nowrap">
+                      <div class="font-semibold text-left">中幾條</div>
+                    </th>
+                    <th class="p-2 whitespace-nowrap">
+                      <div class="font-semibold text-center">看卡片</div>
+                    </th>
+                  </tr>
+                </thead>
+                <tbody class="text-sm divide-y divide-gray-100">
+                  <tr v-for="row in pools" :key="row.id">
+                    <td class="p-2 whitespace-nowrap">
+                      <div class="text-left">#{{ row.id }}</div>
+                    </td>
+                    <!-- <td class="p-2 whitespace-nowrap">
+                        <div class="text-left font-medium text-gray-900">
                           {{ row.numbers }}
                         </div>
-                      </td>
-                      <td class="p-2 whitespace-nowrap">
-                        <div class="text-left font-medium text-green-500">
+                      </td> -->
+                    <!-- <td class="p-2 whitespace-nowrap">
+                        <div class="text-left font-medium text-gray-900">
                           {{ row.specials }}
                         </div>
-                      </td>
-                      <td class="p-2 whitespace-nowrap">
-                        <div class="text-left">{{ row.status }}</div>
-                      </td>
-                    </tr>
-
-                  </tbody>
-                </table>
-              </div>
+                      </td> -->
+                    <td class="p-2 whitespace-nowrap">
+                      <div class="text-left">{{ row.matches }} / 3</div>
+                    </td>
+                    <td class="p-2 whitespace-nowrap text-right">
+                      <div class="flex justify-center">
+                        <router-link :to="`/bingo/${row.hash}`"
+                          ><ArrowRightIcon class="w-4 h-4 text-indigo-500"
+                        /></router-link>
+                      </div>
+                    </td>
+                  </tr>
+                </tbody>
+              </table>
             </div>
           </div>
         </div>
-      </section>
+      </div>
     </div>
   </div>
 </template>
