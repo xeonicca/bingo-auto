@@ -1,10 +1,9 @@
 <script setup>
-// import listToMatrix from '@/helper/listToMatrix'
+import listToMatrix from '@/helper/listToMatrix'
 import bingoChecker from '@/helper/bingoChecker'
 
 import { ArrowRightIcon } from '@heroicons/vue/solid'
 import { airtable } from '@/api/airtable'
-
 
 const pools = ref([])
 const records = ref([])
@@ -17,16 +16,15 @@ const updateRecords = async () => {
       hash: v.id,
       id: v.fields.id,
       numbers,
-      // matrix: listToMatrix(numbers),
+      matrix: listToMatrix(numbers),
       specials: v.fields.specials?.split(','),
       status: v.fields.status,
-      matches: bingoChecker(numbers, hits.value)
+      matches: bingoChecker(numbers, hits.value),
     }
   })
 
   pools.value = records.value
 }
-
 
 // 已開獎的號碼
 const hits = ref([])
@@ -45,9 +43,8 @@ const updateBingo = async () => {
 await updateBingo()
 await updateRecords()
 
-
 const checkAllPool = (matches) => {
-  pools.value = records.value.filter(v => {
+  pools.value = records.value.filter((v) => {
     return v.matches >= matches
   })
 }
@@ -90,7 +87,7 @@ const checkAllPool = (matches) => {
             >
               中1條
             </button>
-            
+
             <button
               @click="checkAllPool(2)"
               type="button"
@@ -112,7 +109,9 @@ const checkAllPool = (matches) => {
         <div
           class="w-full max-w-2xl mx-auto bg-white shadow-lg rounded-sm border border-gray-200"
         >
-          <header class="px-5 py-4 border-b border-gray-100 flex justify-between">
+          <header
+            class="px-5 py-4 border-b border-gray-100 flex justify-between"
+          >
             <h2 class="font-semibold text-gray-800">Bingo Pool</h2>
             <div>
               <strong>{{ pools.length }}張</strong>
@@ -134,6 +133,11 @@ const checkAllPool = (matches) => {
                     <!-- <th class="p-2 whitespace-nowrap">
                         <div class="font-semibold text-left">Rows</div>
                       </th> -->
+                    <th class="p-2 whitespace-nowrap">
+                      <div class="font-semibold text-left">
+                        前五個數字 (確認卡片用)
+                      </div>
+                    </th>
                     <th class="p-2 whitespace-nowrap">
                       <div class="font-semibold text-left">中幾條</div>
                     </th>
@@ -157,6 +161,15 @@ const checkAllPool = (matches) => {
                           {{ row.specials }}
                         </div>
                       </td> -->
+                    <td class="p-2 whitespace-nowrap">
+                      <p class="">
+                        <strong
+                          v-for="num in row.matrix[0]"
+                          class="font-bold inline-block text-center w-8"
+                          >{{ num }}</strong
+                        >
+                      </p>
+                    </td>
                     <td class="p-2 whitespace-nowrap">
                       <div class="text-left">{{ row.matches }} / 3</div>
                     </td>

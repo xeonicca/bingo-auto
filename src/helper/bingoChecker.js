@@ -18,14 +18,17 @@ export default function(numbers, hits) {
       range.find((row) => range.every((column) => checked[row * 5 + column]))
     ) {
       isWonCount++
-    } else if (
+    }
+    if (
       undefined !==
       range.find((column) => range.every((row) => checked[row * 5 + column]))
     ) {
       isWonCount++
-    } else if (range.every((index) => checked[index * 5 + index])) {
+    }
+    if (range.every((index) => checked[index * 5 + index])) {
       isWonCount++
-    } else if (range.every((index) => checked[index * 5 + 4 - index])) {
+    }
+    if (range.every((index) => checked[index * 5 + 4 - index])) {
       isWonCount++
     }
     
