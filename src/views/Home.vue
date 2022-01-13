@@ -59,7 +59,7 @@ const checkAllPool = (matches) => {
           <span
             v-for="num in hits"
             :key="num"
-            class="inline-block mb-3 bg-stone-500 rounded-full px-3 py-2 lg:py-4 text-center object-right-top text-white text-sm lg:text-2xl mr-1 w-10 lg:w-20 font-bold"
+            class="inline-block mb-3 bg-stone-500 rounded-full py-2 lg:py-4 text-center object-right-top text-white text-sm lg:text-2xl mr-1 w-10 lg:w-20 font-bold"
             >{{ num }}</span
           >
         </p>
