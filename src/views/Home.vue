@@ -3,7 +3,7 @@ import bingoChecker from '@/helper/bingoChecker'
 
 
 import { ArrowRightIcon } from '@heroicons/vue/solid'
-import { fetchAllPools, fetchAllNumbers } from '@/api/airtable'
+import { fetchAllPools, fetchAllNumbers, fetchSpecialAllNumbers } from '@/api/airtable'
 
 const pools = ref([])
 const records = ref([])
@@ -16,17 +16,21 @@ const updateRecords = async () => {
 
   records.value.forEach(v => {
     v.matches = bingoChecker(v.numbers, hits.value)
+    v.specialMatches = v.specials.filter(k => specials.value.includes(k))
   })
   pools.value = records.value
 }
 
 // 已開獎的號碼
 const hits = ref([])
+// 已開獎的特別號
+const specials = ref([])
+
 
 // 手動更新
 const updateBingo = async () => {
   hits.value = await fetchAllNumbers()
-
+  specials.value = await fetchSpecialAllNumbers()
   await updateRecords()
 }
 
@@ -37,6 +41,38 @@ const checkAllPool = (matches) => {
     return v.matches >= matches
   })
 }
+
+const checkGrandPrice = () => {
+  pools.value = records.value.filter((v) => {
+    return v.matches >= 3 && v.specials.length > 0
+  })
+}
+
+const matchOneCount = computed(() => {
+  return records.value.filter((v) => {
+    return v.matches >= 1
+  }).length
+})
+
+const matchTwoCount = computed(() => {
+  return records.value.filter((v) => {
+    return v.matches >= 2
+  }).length
+})
+
+const matchThreeCount = computed(() => {
+  return records.value.filter((v) => {
+    return v.matches >= 3
+  }).length
+})
+
+const specialMatchesCount = computed(() => {
+  return records.value.filter((v) => {
+    return v.matches >= 3 && v.specials.length > 0
+  }).length
+})
+
+
 </script>
 
 <template>
@@ -82,7 +118,7 @@ const checkAllPool = (matches) => {
               type="button"
               class="border border-teal-500 bg-teal-500 text-white rounded-md px-4 py-2 m-2 transition duration-500 ease select-none focus:outline-none focus:shadow-outline"
             >
-              中1條
+              中1條 ({{ matchOneCount }})
             </button>
 
             <button
@@ -90,7 +126,7 @@ const checkAllPool = (matches) => {
               type="button"
               class="border border-green-500 bg-green-500 text-white rounded-md px-4 py-2 m-2 transition duration-500 ease select-none focus:outline-none focus:shadow-outline"
             >
-              中2條
+              中2條 ({{ matchTwoCount }})
             </button>
 
             <button
@@ -98,7 +134,15 @@ const checkAllPool = (matches) => {
               type="button"
               class="border border-indigo-500 bg-indigo-500 text-white rounded-md px-4 py-2 m-2 transition duration-500 ease select-none focus:outline-none focus:shadow-outline"
             >
-              中3條
+              中3條 ({{ matchThreeCount }})
+            </button>
+
+            <button
+              @click="checkGrandPrice()"
+              type="button"
+              class="border border-red-500 bg-red-500 text-white rounded-md px-4 py-2 m-2 transition duration-500 ease select-none focus:outline-none focus:shadow-outline"
+            >
+              中大獎 ({{ specialMatchesCount }})
             </button>
           </div>
         </div>
@@ -122,7 +166,7 @@ const checkAllPool = (matches) => {
                 >
                   <tr>
                     <th class="p-2 whitespace-nowrap">
-                      <div class="font-semibold text-left">卡片編號</div>
+                      <div class="font-semibold text-left">編號</div>
                     </th>
                     <!-- <th class="p-2 whitespace-nowrap">
                         <div class="font-semibold text-left">Pool</div>
@@ -137,6 +181,9 @@ const checkAllPool = (matches) => {
                     </th>
                     <th class="p-2 whitespace-nowrap">
                       <div class="font-semibold text-left">中幾條</div>
+                    </th>
+                    <th class="p-2 whitespace-nowrap">
+                      <div class="font-semibold text-left">特別號</div>
                     </th>
                     <th class="p-2 whitespace-nowrap">
                       <div class="font-semibold text-center">看卡片</div>
@@ -163,13 +210,16 @@ const checkAllPool = (matches) => {
                         <strong
                           v-for="num in row.matrix[0]"
                           :key="num"
-                          class="font-bold inline-block text-left lg:text-center lg:text-xl w-8 lg:w-12"
+                          class="font-bold inline-block text-center lg:text-xl w-7 lg:w-12"
                           >{{ num }}</strong
                         >
                       </p>
                     </td>
                     <td class="p-2 whitespace-nowrap">
                       <div class="text-left">{{ row.matches }} / 3</div>
+                    </td>
+                    <td class="p-2 whitespace-nowrap">
+                      <div class="font-bold text-center">{{ row.specialMatches.length }}</div>
                     </td>
                     <td class="p-2 whitespace-nowrap text-right">
                       <router-link

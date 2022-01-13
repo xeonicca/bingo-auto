@@ -1,3 +1,4 @@
+// from https://codesandbox.io/s/rw997woz24?file=/src/index.js
 export default function(numbers, hits) {
   let checked = numbers.reduce((all, v, i) => {
     if (hits.indexOf(Number(v)) !== -1) {

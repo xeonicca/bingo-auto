@@ -21,7 +21,7 @@ const isWonCount = bingoChecker(numbers, hits)
 <template>
   <div class="bg-gray-200 min-h-screen pt-20">
     <div
-      class="max-w-screen-xl px-2 py-12 mx-auto sm:px-6 lg:py-16 lg:px-8"
+      class="max-w-screen-xl px-2 py-4 mx-auto sm:px-6 lg:py-16 lg:px-8"
     >
       <!-- Table -->
       <div
@@ -55,7 +55,7 @@ const isWonCount = bingoChecker(numbers, hits)
 
       <!-- Table -->
       <div
-        class="mt-6 w-full max-w-2xl mx-auto bg-white shadow-lg rounded-sm border border-gray-200"
+        class="mt-3 w-full max-w-2xl mx-auto bg-white shadow-lg rounded-sm border border-gray-200"
       >
         <header class="px-5 py-4 border-b border-gray-100 flex justify-between">
           <h2 class="font-semibold text-gray-800">特別號</h2>
@@ -82,10 +82,10 @@ const isWonCount = bingoChecker(numbers, hits)
         </div>
       </div>
 
-      <div class="text-center pt-8 px-2">
+      <div class="text-center pt-4 px-2">
         <router-link
           to="/"
-          class="w-full border border-indigo-500 bg-indigo-500 text-white rounded-md px-4 py-2 transition duration-500 ease select-none hover:bg-indigo-600 focus:outline-none focus:shadow-outline"
+          class="inline-block w-full border border-indigo-500 bg-indigo-500 text-white rounded-md px-4 py-2 transition duration-500 ease select-none hover:bg-indigo-600 focus:outline-none focus:shadow-outline"
         >
           上一頁
         </router-link>
