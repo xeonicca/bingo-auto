@@ -14,6 +14,11 @@ export default {
       })
 
       alert(`剛剛送出那張的編號是${response.data.fields.id}`)
+      this.clearForm()
+    },
+
+    clearForm() {
+      this.inputArray = Array(25)
     }
   }
 }
@@ -58,13 +63,19 @@ export default {
           首頁
         </router-link>
         <button
+          @click="clearForm"
+          type="button"
+          class="ml-4 border border-stone-500 bg-stone-500 text-white rounded-md px-4 py-2 m-2 transition duration-500 ease select-none focus:outline-none focus:shadow-outline"
+        >
+          清除
+        </button>
+        <button
           @click="submit"
           type="button"
-          class="ml-8 border border-green-500 bg-green-500 text-white rounded-md px-4 py-2 m-2 transition duration-500 ease select-none focus:outline-none focus:shadow-outline"
+          class="ml-4 border border-green-500 bg-green-500 text-white rounded-md px-4 py-2 m-2 transition duration-500 ease select-none focus:outline-none focus:shadow-outline"
         >
           送出
         </button>
-        
       </div>
     </div>
   </div>
