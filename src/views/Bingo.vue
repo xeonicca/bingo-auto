@@ -1,5 +1,5 @@
 <script setup>
-import { airtable } from '@/api/airtable'
+import { airtable, fetchAllNumbers } from '@/api/airtable'
 import listToMatrix from '@/helper/listToMatrix'
 import bingoChecker from '@/helper/bingoChecker'
 
@@ -11,12 +11,12 @@ const { data: bingos } = await airtable.get(
   `bingo?maxRecords=100&view=Grid%20view`
 )
 
-const hits = bingos.records.map((v) => v.fields.bingo)
+const hits = await fetchAllNumbers()
 const id = data.fields.id
 const numbers = data.fields.numbers?.split(',')
 const matrix = listToMatrix(data.fields.numbers?.split(','))
 
-const isWonCount = bingoChecker(numbers, hits, 2)
+const isWonCount = bingoChecker(numbers, hits)
 // const numbers = listToMatrix(data.fields.numbers?.split(','))
 </script>
 
