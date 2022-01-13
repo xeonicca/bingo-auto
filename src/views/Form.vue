@@ -25,7 +25,7 @@ export default {
 </script>
 
 <template>
-  <div class="bg-gray-200 h-screen pt-20">
+  <div class="bg-gray-200 min-h-screen pt-20">
     <div class="max-w-screen-xl px-2 py-12 mx-auto sm:px-6 lg:py-16 lg:px-8">
       <!-- Table -->
       <div
