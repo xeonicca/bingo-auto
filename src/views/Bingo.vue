@@ -35,14 +35,14 @@ const isWonCount = bingoChecker(numbers, hits, 2)
         </header>
         <div class="p-1">
           <div class="overflow-x-auto">
-            <table class="table-auto w-full">
+            <table class="table-fixed w-full">
               <tbody class="text-xl divide-y divide-gray-100">
                 <tr v-for="row in matrix">
-                  <td v-for="num in row" class="px-2 py-2 whitespace-nowrap">
+                  <td v-for="num in row" class="p-1">
                     <div
                       class="text-center font-bold py-4"
                       :class="{
-                        'bg-red-400': hits.indexOf(Number(num)) !== -1,
+                        'bg-rose-400': hits.indexOf(Number(num)) !== -1,
                       }"
                     >
                       {{ num }}
