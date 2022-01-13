@@ -8,7 +8,7 @@ const hash = $route.params.hash
 
 const { data } = await airtable.get(`pool/${hash}`)
 const { data: bingos } = await airtable.get(
-  `bingo?maxRecords=300&view=Grid%20view`
+  `bingo?maxRecords=100&view=Grid%20view`
 )
 
 const hits = bingos.records.map((v) => v.fields.bingo)
@@ -23,7 +23,7 @@ const isWonCount = bingoChecker(numbers, hits, 2)
 <template>
   <div class="bg-gray-200 h-screen pt-20">
     <div
-      class="max-w-screen-xl px-2 py-12 mx-auto sm:px-6 lg:py-16 lg:px-8 lg:flex lg:items-center lg:justify-between"
+      class="max-w-screen-xl px-2 py-12 mx-auto sm:px-6 lg:py-16 lg:px-8"
     >
       <!-- Table -->
       <div

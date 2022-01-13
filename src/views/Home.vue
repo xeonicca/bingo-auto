@@ -9,7 +9,7 @@ const pools = ref([])
 const records = ref([])
 
 const updateRecords = async () => {
-  const { data } = await airtable.get('pool?maxRecords=500&view=Grid%20view')
+  const { data } = await airtable.get('pool?maxRecords=200&view=Grid%20view')
   records.value = data.records.map((v) => {
     let numbers = v.fields.numbers?.split(',')
     return {
@@ -32,7 +32,7 @@ const hits = ref([])
 // 手動更新
 const updateBingo = async () => {
   const { data: bingos } = await airtable.get(
-    `bingo?maxRecords=300&view=Grid%20view`
+    `bingo?maxRecords=100&view=Grid%20view`
   )
 
   hits.value = bingos.records.map((v) => v.fields.bingo)
@@ -41,7 +41,6 @@ const updateBingo = async () => {
 }
 
 await updateBingo()
-await updateRecords()
 
 const checkAllPool = (matches) => {
   pools.value = records.value.filter((v) => {
@@ -53,23 +52,28 @@ const checkAllPool = (matches) => {
 <template>
   <div class="bg-gray-200 h-screen pt-20">
     <div
-      class="max-w-screen-xl px-2 py-12 mx-auto sm:px-6 lg:py-16 lg:px-8 lg:flex lg:items-center lg:justify-between"
+      class="max-w-screen-xl px-2 py-12 mx-auto sm:px-6 lg:py-16 lg:px-8 lg:flex lg:items-center lg:justify-center"
     >
-      <h3 class="text-lg px-4 flex items-center">
-        <span>目前號碼</span>
-        <button
-          @click="updateBingo"
-          type="button"
-          class="ml-2 text-xs border border-indigo-500 bg-indigo-500 text-white rounded-md px-2 py-1 transition duration-500 ease select-none hover:bg-indigo-600 focus:outline-none focus:shadow-outline"
-        >
-          更新號碼
-        </button>
-      </h3>
-      <p class="px-4 mt-1">
-        <strong v-for="num in hits" class="px-1">{{ num }}</strong>
-      </p>
-
-      <div class="flex flex-col justify-center">
+      <div class="lg:flex-1 lg:px-10">
+        <h3 class="text-lg px-4 flex items-center">
+          <span>目前開獎號碼</span>
+          <button
+            @click="updateBingo"
+            type="button"
+            class="ml-2 text-xs border border-indigo-500 bg-indigo-500 text-white rounded-md px-2 py-1 transition duration-500 ease select-none hover:bg-indigo-600 focus:outline-none focus:shadow-outline"
+          >
+            更新號碼
+          </button>
+        </h3>
+        <p class="px-4 mt-1">
+          <strong
+            v-for="num in hits"
+            class="inline-block px-1 py-2 lg:p-3 lg:text-3xl"
+            >{{ num }}</strong
+          >
+        </p>
+      </div>
+      <div class="flex flex-col justify-center lg:flex-1">
         <div class="px-2 py-4 my-3 mx-auto rounded-md flex items-center">
           <div class="w-full text-center mx-auto">
             <button
@@ -112,7 +116,7 @@ const checkAllPool = (matches) => {
           <header
             class="px-5 py-4 border-b border-gray-100 flex justify-between"
           >
-            <h2 class="font-semibold text-gray-800">Bingo Pool</h2>
+            <h2 class="font-bold text-gray-800">Bingo Pool</h2>
             <div>
               <strong>{{ pools.length }}張</strong>
             </div>
@@ -165,7 +169,7 @@ const checkAllPool = (matches) => {
                       <p class="">
                         <strong
                           v-for="num in row.matrix[0]"
-                          class="font-bold inline-block text-center w-8"
+                          class="font-bold inline-block text-left lg:text-center lg:text-xl w-8"
                           >{{ num }}</strong
                         >
                       </p>
@@ -174,11 +178,9 @@ const checkAllPool = (matches) => {
                       <div class="text-left">{{ row.matches }} / 3</div>
                     </td>
                     <td class="p-2 whitespace-nowrap text-right">
-                      <div class="flex justify-center">
-                        <router-link :to="`/bingo/${row.hash}`"
-                          ><ArrowRightIcon class="w-4 h-4 text-indigo-500"
-                        /></router-link>
-                      </div>
+                      <router-link class="block text-center py-2" :to="`/bingo/${row.hash}`"
+                        ><ArrowRightIcon class="inline-block w-4 h-4 text-indigo-500"
+                      /></router-link>
                     </td>
                   </tr>
                 </tbody>
