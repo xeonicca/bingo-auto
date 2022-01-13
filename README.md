@@ -1,33 +1,15 @@
-# ⚡ Vite + Vue 3 + Tailwind CSS ✔
+# 🤑 尾牙的賓果兑獎程式 🤑
 
-![Vite, Vue, Tailwind CSS](https://user-images.githubusercontent.com/11320080/111277027-a9384c00-8640-11eb-8323-21889bd7c609.png)
+## 首頁 ✨
+可以看到目前已開獎號碼跟當前有中的卡片
 
-This starter template includes:
+## 卡片 🀄
+假如有連線的卡片可以在首頁過濾後，進入此頁看有哪些號碼被圈起來
 
-- [Vite](https://vitejs.dev/guide/)
-- [Vue 3](https://staging.vuejs.org/guide/introduction.html)
-- [Tailwind CSS v3](https://tailwindcss.com/docs/configuration)
-- [Vue Router v4](https://github.com/vuejs/vue-router-next)
-- [Inter var font](https://github.com/rsms/inter) (self-hosted, woff2, v3.19, with 'preload' attr, check out index.html)
-- [Headless UI](https://headlessui.dev/vue/menu) - unstyled, fully accessible UI components, designed to integrate beautifully with Tailwind CSS
-- [Heroicons](https://github.com/tailwindlabs/heroicons#vue) - beautiful hand-crafted SVG icons,
-by the makers of Tailwind CSS
+## 填號碼 🎃
+這邊可以填bingo號碼或是開獎號碼
 
-First-party plugins needed for Tailwind UI:
-
-- [tailwindcss/forms](https://github.com/tailwindlabs/tailwindcss-forms)
-- [tailwindcss/typography](https://tailwindcss.com/docs/typography-plugin)
-- [tailwindcss/line-clamp](https://github.com/tailwindlabs/tailwindcss-line-clamp)
-- [tailwindcss/aspect-ratio](https://github.com/tailwindlabs/tailwindcss-aspect-ratio)
-
-### Getting Started
-
-[![Open in Visual Studio Code](https://open.vscode.dev/badges/open-in-vscode.svg)](https://open.vscode.dev/web2033/vite-vue3-tailwind-starter)
-
-```sh
-npx degit web2033/vite-vue3-tailwind-starter vvt-app
-cd vvt-app
-```
+## 指令 💻
 
 ```sh
 npm i
@@ -35,5 +17,3 @@ npm run dev
 npm run build
 npm run serve
 ```
-
-[![Deploy to Netlify](https://www.netlify.com/img/deploy/button.svg)](https://app.netlify.com/start/deploy?repository=https://github.com/web2033/vite-vue3-tailwind-starter)
