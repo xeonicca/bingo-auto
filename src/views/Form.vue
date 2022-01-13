@@ -46,6 +46,7 @@ export default {
                       type="tel"
                       :tabindex="i * 5 + j + 1"
                       v-model="inputArray[i * 5 + j]"
+                      maxlength="2"
                     />
                   </td>
                 </tr>
