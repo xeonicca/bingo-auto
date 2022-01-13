@@ -1060,10 +1060,10 @@ to-regex-range@^5.0.1:
   dependencies:
     is-number "^7.0.0"
 
-unplugin-auto-import@^0.5.5:
-  version "0.5.9"
-  resolved "https://registry.yarnpkg.com/unplugin-auto-import/-/unplugin-auto-import-0.5.9.tgz#b9e7a8ce44d55d535d2a9332d38beb2468b709ee"
-  integrity sha512-PUKmTbbyTf1G4OLb7+8NZ9Ky+UuslbwiGu9GwgejAKWJcNXTPQexrWHpiOo7goo/cWQ+fya/SxHF+Y6zeDDFxw==
+unplugin-auto-import@^0.5.10:
+  version "0.5.10"
+  resolved "https://registry.yarnpkg.com/unplugin-auto-import/-/unplugin-auto-import-0.5.10.tgz#f2e4134cdad3c820e810c9ece7d1b32ee7c10dce"
+  integrity sha512-GeZFlazV8BtFuqNcPwf8NDbTnS3E+VGl3jfRT0Zt5maybGzgXKqh3M/twGPSaovqjs0J9KZ7H2WZeW6vYa5OaA==
   dependencies:
     "@antfu/utils" "^0.4.0"
     "@rollup/pluginutils" "^4.1.2"
