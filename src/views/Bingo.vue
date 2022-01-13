@@ -1,5 +1,5 @@
 <script setup>
-import { airtable, fetchAllNumbers } from '@/api/airtable'
+import { airtable, fetchAllNumbers, fetchSpecialAllNumbers } from '@/api/airtable'
 import listToMatrix from '@/helper/listToMatrix'
 import bingoChecker from '@/helper/bingoChecker'
 
@@ -7,15 +7,13 @@ const $route = useRoute()
 const hash = $route.params.hash
 
 const { data } = await airtable.get(`pool/${hash}`)
-const { data: bingos } = await airtable.get(
-  `bingo?maxRecords=100&view=Grid%20view`
-)
 
 const hits = await fetchAllNumbers()
+const specialHits = await fetchSpecialAllNumbers()
 const id = data.fields.id
 const numbers = data.fields.numbers?.split(',')
 const matrix = listToMatrix(data.fields.numbers?.split(','))
-
+const specials = data.fields.specials?.split(',')
 const isWonCount = bingoChecker(numbers, hits)
 // const numbers = listToMatrix(data.fields.numbers?.split(','))
 </script>
@@ -43,6 +41,35 @@ const isWonCount = bingoChecker(numbers, hits)
                       class="text-center font-bold py-4"
                       :class="{
                         'bg-rose-400': hits.indexOf(Number(num)) !== -1,
+                      }"
+                    >
+                      {{ num }}
+                    </div>
+                  </td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+
+      <!-- Table -->
+      <div
+        class="mt-6 w-full max-w-2xl mx-auto bg-white shadow-lg rounded-sm border border-gray-200"
+      >
+        <header class="px-5 py-4 border-b border-gray-100 flex justify-between">
+          <h2 class="font-semibold text-gray-800">特別號</h2>
+        </header>
+        <div class="p-1">
+          <div class="overflow-x-auto">
+            <table class="table-fixed w-full">
+              <tbody class="text-xl divide-y divide-gray-100">
+                <tr>
+                  <td v-for="num in specials" class="p-1">
+                    <div
+                      class="text-center font-bold py-4"
+                      :class="{
+                        'bg-amber-400': specialHits.indexOf(Number(num)) !== -1,
                       }"
                     >
                       {{ num }}

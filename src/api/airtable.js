@@ -1,7 +1,7 @@
 import axios from 'axios'
 import qs from 'qs'
 import listToMatrix from '@/helper/listToMatrix'
-import bingoChecker from '@/helper/bingoChecker'
+
 
 export const airtable = axios.create({
   baseURL: `https://api.airtable.com/v0/appr4tWRQcT5MFp3D/`,
@@ -44,6 +44,12 @@ export const fetchAllNumbers = async function() {
   const { data } = await airtable.get(
     `bingo?pageSize=100&view=Grid%20view`
   )
+
+  return data.records.map((v) => v.fields.bingo)
+}
+
+export const fetchSpecialAllNumbers = async function () {
+  const { data } = await airtable.get(`bingo2?pageSize=100&view=Grid%20view`)
 
   return data.records.map((v) => v.fields.bingo)
 }
