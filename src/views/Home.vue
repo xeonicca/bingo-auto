@@ -42,27 +42,29 @@ const checkAllPool = (matches) => {
 <template>
   <div class="bg-gray-200 min-h-screen pt-20">
     <div
-      class="max-w-screen-xl px-2 py-12 mx-auto sm:px-6 lg:py-16 lg:px-8 lg:flex lg:items-center lg:justify-center"
+      class="max-w-screen-xl px-2 py-12 mx-auto sm:px-6 lg:py-16 lg:px-8 lg:flex lg:items-start lg:justify-center"
     >
-      <div class="lg:flex-1 lg:px-10">
-        <h3 class="text-lg px-4 flex items-center">
-          <span>目前開獎號碼</span>
-          <button
-            @click="updateBingo"
-            type="button"
-            class="ml-2 text-xs border border-indigo-500 bg-indigo-500 text-white rounded-md px-2 py-1 transition duration-500 ease select-none hover:bg-indigo-600 focus:outline-none focus:shadow-outline"
-          >
-            更新號碼
-          </button>
-        </h3>
-        <p class="px-4 pt-2 mt-1">
-          <span
-            v-for="num in hits"
-            :key="num"
-            class="inline-block mb-3 bg-stone-500 rounded-full py-2 lg:py-4 text-center object-right-top text-white text-sm lg:text-2xl mr-1 w-10 lg:w-20 font-bold"
-            >{{ num }}</span
-          >
-        </p>
+      <div class="lg:flex-1 lg:px-10 lg:relative">
+        <div class="w-full lg:pt-20 lg:fixed lg:top-[100px] lg:w-[600px]">
+          <h3 class="text-lg lg:text-4xl px-4 flex items-center">
+            <span>目前開獎號碼</span>
+            <button
+              @click="updateBingo"
+              type="button"
+              class="ml-2 text-xs lg:text-lg border border-indigo-500 bg-indigo-500 text-white rounded-md px-2 py-1 transition duration-500 ease select-none hover:bg-indigo-600 focus:outline-none focus:shadow-outline"
+            >
+              更新號碼
+            </button>
+          </h3>
+          <p class="px-4 pt-2 mt-1">
+            <span
+              v-for="num in hits"
+              :key="num"
+              class="inline-block mb-3 bg-stone-500 rounded-full py-2 lg:py-4 text-center object-right-top text-white text-sm lg:text-2xl mr-1 w-10 lg:w-20 font-bold"
+              >{{ num }}</span
+            >
+          </p>
+        </div>
       </div>
       <div class="flex flex-col justify-center lg:flex-1">
         <div class="px-2 py-4 my-3 mx-auto rounded-md flex items-center">
