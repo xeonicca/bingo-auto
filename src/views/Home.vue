@@ -169,7 +169,7 @@ const checkAllPool = (matches) => {
                       <p class="">
                         <strong
                           v-for="num in row.matrix[0]"
-                          class="font-bold inline-block text-left lg:text-center lg:text-xl w-8"
+                          class="font-bold inline-block text-left lg:text-center lg:text-xl w-8 lg:w-12"
                           >{{ num }}</strong
                         >
                       </p>
