@@ -8,8 +8,11 @@ import { fetchAllPools, fetchAllNumbers } from '@/api/airtable'
 const pools = ref([])
 const records = ref([])
 
+records.value = await fetchAllPools()
+pools.value = records.value
+
 const updateRecords = async () => {
-  records.value = await fetchAllPools()
+  // records.value = await fetchAllPools()
 
   records.value.forEach(v => {
     v.matches = bingoChecker(v.numbers, hits.value)

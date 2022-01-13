@@ -17,7 +17,7 @@ export const fetchAllPools = async function(offset = '') {
   if(offset !== '') {
     params.offset = offset
   }
-  const { data } = await airtable.get('pool?pageSize=50&view=Grid%20view', {params})
+  const { data } = await airtable.get('pool?pageSize=100&view=Grid%20view', {params})
 
   let records = data.records.map((v) => {
     let numbers = v.fields.numbers?.split(',')
