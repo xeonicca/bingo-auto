@@ -38,7 +38,7 @@ export default {
                   >
                     <input
                       class="w-12 p-2 text-xl text-center rounded-lg border-2 border-indigo-200"
-                      type="number"
+                      type="tel"
                       :tabindex="i * 5 + j + 1"
                       v-model="inputArray[i * 5 + j]"
                     />
