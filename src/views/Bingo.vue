@@ -82,7 +82,7 @@ const isWonCount = bingoChecker(numbers, hits)
         </div>
       </div>
 
-      <div class="text-center pt-4 px-2">
+      <div class="text-center pt-4 max-w-2xl mx-auto">
         <router-link
           to="/"
           class="inline-block w-full border border-indigo-500 bg-indigo-500 text-white rounded-md px-4 py-2 transition duration-500 ease select-none hover:bg-indigo-600 focus:outline-none focus:shadow-outline"
