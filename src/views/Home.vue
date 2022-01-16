@@ -68,7 +68,7 @@ const matchThreeCount = computed(() => {
 
 const specialMatchesCount = computed(() => {
   return records.value.filter((v) => {
-    return v.matches >= 3 && v.specials.length > 0
+    return v.matches >= 3 && v.specialMatches.length > 0
   }).length
 })
 
